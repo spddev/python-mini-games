@@ -2,24 +2,38 @@ import pygame
 from random import randrange
 
 # основные настройки
+# размеры игрового поля
 RES = 800
 SIZE = 50
-
+# границы координат x и y
 x, y = randrange(SIZE, RES - SIZE, SIZE), randrange(SIZE, RES - SIZE, SIZE)
+# границы появления яблок
 apple = randrange(SIZE, RES - SIZE, SIZE), randrange(SIZE, RES - SIZE, SIZE)
+# длина змейки по умолчанию
 length = 1
+# отрисовка змейки
 snake = [(x, y)]
+# смещение координат от изначального положения змейки (по умолчанию)
 dx, dy = 0, 0
+# частота смены кадров
 fps = 60
+# Словарь клавиш управления змейкой
 dirs = {'W': True, 'S': True, 'A': True, 'D': True, }
+# игровые очки
 score = 0
+# скорость змейки и её изменение
 speed_count, snake_speed = 0, 10
-
+# инициализация pygame
 pygame.init()
+# отображение основного окна
 surface = pygame.display.set_mode([RES, RES])
+# частота смены кадров
 clock = pygame.time.Clock()
+# параметры шрифта для отрисовки игровых очков
 font_score = pygame.font.SysFont('Arial', 26, bold=True)
+# параметры шрифта для отрисовки сообщения об окончании игры
 font_end = pygame.font.SysFont('Arial', 66, bold=True)
+# фоновое изображение
 img = pygame.image.load('img/snake_background.jpg').convert()
 
 
@@ -32,8 +46,9 @@ def close_game():
 # игра
 while True:
     surface.blit(img, (0, 0))
-    # отрисовка змеи и яблок
+    # отрисовка змеи
     [pygame.draw.rect(surface, pygame.Color('green'), (i, j, SIZE - 1, SIZE - 1)) for i, j in snake]
+    # отрисовка яблок
     pygame.draw.rect(surface, pygame.Color('red'), (*apple, SIZE, SIZE))
 
     # отрисовка очков
@@ -59,6 +74,8 @@ while True:
 
 
     # конец игры
+    # x < 0 or x > RES - SIZE or y < 0 or y > RES - SIZE - выход за пределы экрана
+    # len(snake) != len(set(snake)) - голова змеи врезается в её хвост
     if x < 0 or x > RES - SIZE or y < 0 or y > RES - SIZE or len(snake) != len(set(snake)):
         while True:
             render_end = font_end.render('КОНЕЦ ИГРЫ', 1, pygame.Color('blue'))
