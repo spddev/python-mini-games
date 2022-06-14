@@ -1,6 +1,3 @@
-import timeit
-
-import win32timezone
 from ursina import *
 import random
 
